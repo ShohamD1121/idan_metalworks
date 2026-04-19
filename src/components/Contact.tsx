@@ -116,37 +116,6 @@ export default function Contact() {
             </motion.a>
           ))}
         </div>
-
-        {/* Map placeholder */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="border border-metal-border bg-metal-card h-64 md:h-80 flex items-center justify-center relative overflow-hidden"
-        >
-          {/* Decorative background grid */}
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage:
-                'linear-gradient(rgba(192,192,192,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(192,192,192,0.15) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-            }}
-          />
-          <div className="relative z-10 text-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} className="w-12 h-12 text-gold mx-auto mb-4">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            <p className="font-subheading text-steel tracking-widest text-sm uppercase">
-              ישראל · Israel
-            </p>
-            <p className="font-body text-steel-dark text-xs mt-1">
-              עובדים בכל הארץ
-            </p>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
