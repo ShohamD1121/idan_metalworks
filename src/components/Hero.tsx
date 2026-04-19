@@ -1,40 +1,161 @@
 import { motion } from 'framer-motion'
-import bgImage from '../assets/shed_2.jpg'
+
+// ─── Static constants (defined outside to avoid re-creation) ───────────────
+
+const OUTER  = 'M 80,40 L 1360,40 L 1400,80 L 1400,720 L 1360,760 L 80,760 L 40,720 L 40,80 Z'
+const INNER  = 'M 160,160 L 1280,160 L 1280,640 L 160,640 Z'
+const DIAMOND    = 'M 720,270 L 855,400 L 720,530 L 585,400 Z'
+const DIAMOND_SM = 'M 720,338 L 787,400 L 720,462 L 653,400 Z'
+
+interface Particle { id: number; left: string; top: string; size: string; dur: string; delay: string; gold: boolean }
+const PARTICLES: Particle[] = Array.from({ length: 28 }, (_, i) => ({
+  id: i,
+  left:  `${((i * 113 + 47) % 94) + 3}%`,
+  top:   `${((i * 79  + 31) % 88) + 6}%`,
+  size:  `${(i % 4) * 0.7 + 0.7}px`,
+  dur:   `${(i % 6) * 2 + 11}s`,
+  delay: `-${((i * 1.9) % 11).toFixed(1)}s`,
+  gold:  i % 8 === 0,
+}))
+
+interface Dot { cx: number; cy: number; d: number }
+const DOTS: Dot[] = [
+  { cx: 160,  cy: 160, d: 1.0 }, { cx: 1280, cy: 160, d: 1.1 },
+  { cx: 160,  cy: 640, d: 1.2 }, { cx: 1280, cy: 640, d: 1.3 },
+  { cx: 720,  cy: 160, d: 1.4 }, { cx: 720,  cy: 640, d: 1.5 },
+  { cx: 160,  cy: 400, d: 1.6 }, { cx: 1280, cy: 400, d: 1.7 },
+  { cx: 720,  cy: 400, d: 1.9 },
+]
+
+// Shorthand for path draw transitions
+function draw(delay: number, duration: number) {
+  return {
+    initial: { pathLength: 0, opacity: 0 },
+    animate: { pathLength: 1, opacity: 1 },
+    transition: {
+      pathLength: { duration, delay, ease: 'easeInOut' as const },
+      opacity:    { duration: 0.01, delay },
+    },
+  }
+}
+
+// ─── Component ─────────────────────────────────────────────────────────────
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden metal-grain"
-      style={{
-        backgroundImage: `
-          linear-gradient(to bottom,
-            rgba(10,10,10,0.7) 0%,
-            rgba(10,10,10,0.55) 40%,
-            rgba(10,10,10,0.85) 100%
-          ),
-          url(${bgImage})
-        `,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center top',
-      }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060606]"
     >
-      {/* Diagonal stripe overlay for brushed-metal feel */}
+      {/* Subtle gold centre glow */}
       <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            'repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(192,192,192,0.06) 3px, rgba(192,192,192,0.06) 6px)',
+          background:
+            'radial-gradient(ellipse 80% 65% at 50% 50%, rgba(184,134,11,0.04) 0%, transparent 65%)',
         }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-5 max-w-6xl mx-auto w-full">
+      {/* ── Animated SVG technical drawing ── */}
+      <svg
+        viewBox="0 0 1440 800"
+        preserveAspectRatio="xMidYMid slice"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        aria-hidden="true"
+      >
+        {/* Outer chamfered frame */}
+        <motion.path d={OUTER} fill="none" stroke="#232323" strokeWidth="1"     {...draw(0,   3.2)} />
+
+        {/* Inner rectangle */}
+        <motion.path d={INNER} fill="none" stroke="#1b1b1b" strokeWidth="0.7"   {...draw(0.7, 2.6)} />
+
+        {/* Corner diagonal cuts */}
+        <motion.line x1="80"   y1="40"  x2="160"  y2="160" stroke="#252525" strokeWidth="0.5" {...draw(0.5,  0.4)} />
+        <motion.line x1="1360" y1="40"  x2="1280" y2="160" stroke="#252525" strokeWidth="0.5" {...draw(0.55, 0.4)} />
+        <motion.line x1="80"   y1="760" x2="160"  y2="640" stroke="#252525" strokeWidth="0.5" {...draw(0.6,  0.4)} />
+        <motion.line x1="1360" y1="760" x2="1280" y2="640" stroke="#252525" strokeWidth="0.5" {...draw(0.65, 0.4)} />
+
+        {/* Gold L-brackets at chamfered corners */}
+        <motion.path d="M 40,105 L 40,82 L 58,60 L 80,40 L 125,40"   fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.1, 0.6)} />
+        <motion.path d="M 1400,105 L 1400,82 L 1382,60 L 1360,40 L 1315,40" fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.2, 0.6)} />
+        <motion.path d="M 40,695 L 40,718 L 58,740 L 80,760 L 125,760"  fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.3, 0.6)} />
+        <motion.path d="M 1400,695 L 1400,718 L 1382,740 L 1360,760 L 1315,760" fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.4, 0.6)} />
+
+        {/* Crosshair segments (gap around central diamond) */}
+        <motion.line x1="160" y1="400" x2="585"  y2="400" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.5, 1.2)} />
+        <motion.line x1="855" y1="400" x2="1280" y2="400" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.5, 1.2)} />
+        <motion.line x1="720" y1="160" x2="720"  y2="270" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.6, 0.8)} />
+        <motion.line x1="720" y1="530" x2="720"  y2="640" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.6, 0.8)} />
+
+        {/* Central diamond */}
+        <motion.path d={DIAMOND}    fill="none" stroke="#b8860b"              strokeWidth="1"   {...draw(2.0, 1.6)} />
+        <motion.path d={DIAMOND_SM} fill="none" stroke="rgba(184,134,11,0.3)" strokeWidth="0.6" {...draw(2.4, 1.0)} />
+
+        {/* Horizontal accent bars flanking diamond */}
+        <motion.line x1="160"  y1="220" x2="440"  y2="220" stroke="#161616" strokeWidth="0.5" {...draw(2.0, 0.9)} />
+        <motion.line x1="1000" y1="220" x2="1280" y2="220" stroke="#161616" strokeWidth="0.5" {...draw(2.0, 0.9)} />
+        <motion.line x1="160"  y1="580" x2="440"  y2="580" stroke="#161616" strokeWidth="0.5" {...draw(2.1, 0.9)} />
+        <motion.line x1="1000" y1="580" x2="1280" y2="580" stroke="#161616" strokeWidth="0.5" {...draw(2.1, 0.9)} />
+
+        {/* Intersection dot markers */}
+        {DOTS.map(({ cx, cy, d }) => (
+          <motion.circle
+            key={`${cx}-${cy}`}
+            cx={cx} cy={cy} r="2.5"
+            fill="#b8860b" fillOpacity="0.55"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: d, duration: 0.3, ease: 'backOut' }}
+          />
+        ))}
+
+        {/* Subtle grid dots across the background */}
+        {Array.from({ length: 12 }, (_, row) =>
+          Array.from({ length: 20 }, (_, col) => (
+            <motion.circle
+              key={`g-${row}-${col}`}
+              cx={col * 76 + 40} cy={row * 66 + 40} r="0.8"
+              fill="#1e1e1e"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 + (row + col) * 0.015, duration: 0.4 }}
+            />
+          ))
+        )}
+      </svg>
+
+      {/* ── Floating particles ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {PARTICLES.map((p) => (
+          <div
+            key={p.id}
+            className={`absolute ${p.gold ? 'bg-gold' : 'bg-[#333]'}`}
+            style={{
+              left: p.left, top: p.top,
+              width: p.size, height: p.size,
+              borderRadius: p.gold ? '50%' : '1px',
+              animation: `float-particle ${p.dur} ${p.delay} linear infinite`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* ── Diagonal stripe overlay ── */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(192,192,192,0.4) 3px, rgba(192,192,192,0.4) 6px)',
+        }}
+      />
+
+      {/* ── Text content ── */}
+      <div className="relative z-10 text-center px-5 max-w-5xl mx-auto w-full">
         {/* Brand label */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
+          transition={{ duration: 0.7, delay: 0.4 }}
           className="font-subheading text-gold tracking-[0.5em] text-xs md:text-sm uppercase mb-8"
           dir="ltr"
         >
@@ -45,8 +166,8 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="font-heading text-[4.5rem] sm:text-[6rem] md:text-[8.5rem] lg:text-[11rem] xl:text-[13rem] leading-[0.88] text-steel-light tracking-wider"
+          transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="font-heading text-[2.8rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-[0.92] text-steel-light tracking-wider"
           dir="rtl"
         >
           מסגרות.
@@ -60,7 +181,7 @@ export default function Hero() {
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 0.9, delay: 0.7, ease: 'easeOut' }}
+          transition={{ duration: 0.9, delay: 1.0 }}
           className="w-20 h-[2px] bg-gold mx-auto mt-8 mb-6 origin-center"
         />
 
@@ -68,18 +189,18 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
           className="font-body text-steel text-lg md:text-2xl mb-12 tracking-wide"
           dir="rtl"
         >
           בנייה ממתכת ברמה גבוהה
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a href="#contact" className="btn-gold w-full sm:w-auto">
@@ -103,19 +224,11 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-slow"
       >
-        <span className="font-subheading text-steel-dark text-[10px] tracking-[0.3em] uppercase">
-          גלול
-        </span>
-        <svg
-          className="w-4 h-4 text-steel-dark"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
+        <span className="font-subheading text-steel-dark text-[10px] tracking-[0.3em] uppercase">גלול</span>
+        <svg className="w-4 h-4 text-steel-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
         </svg>
       </motion.div>

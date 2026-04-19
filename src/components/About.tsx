@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 import aboutImage from '../assets/face_rail.jpg'
 
 const stats = [
-  { value: '10+', label: 'שנות ניסיון' },
-  { value: '200+', label: 'פרויקטים' },
+  { value: '5+', label: 'שנות ניסיון' },
+  { value: '50+', label: 'פרויקטים' },
   { value: '100%', label: 'שביעות רצון' },
 ]
 
@@ -29,7 +29,7 @@ export default function About() {
 
             <div className="space-y-5 font-body text-steel leading-relaxed text-base">
               <p>
-                עידן דואק הוא מסגר מקצועי עם למעלה מ-10 שנות ניסיון בעבודות מתכת ברמה גבוהה.
+                עידן דואק הוא מסגר מקצועי עם למעלה מ-5 שנות ניסיון בעבודות מתכת ברמה גבוהה.
                 החל ממסגרות כלליות ועד קונסטרוקציות תעשייתיות מורכבות — כל פרויקט מקבל את אותו
                 יחס מקצועי ואדיב.
               </p>
