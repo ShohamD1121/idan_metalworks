@@ -10,20 +10,20 @@ const services: Service[] = [
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+        <path d="M2 20h20M4 20V8l8-6 8 6v12M9 20v-6h6v6" />
+      </svg>
+    ),
+    title: 'בנייה ממתכת',
+    description: 'מבני מתכת לכל שימוש — מגורי, מסחרי ותעשייתי. עבודה מקצועית לפי תכן מדויק.',
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
       </svg>
     ),
     title: 'מסגרות כלליות',
     description: 'עבודות מסגרות מקצועיות לכל סוגי הפרויקטים — מהקטן ביותר ועד הגדול ביותר.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-        <path d="M2 20h20M4 20V8l8-6 8 6v12M9 20v-6h6v6" />
-      </svg>
-    ),
-    title: 'בנייה ממתכת',
-    description: 'מבנים, חיפויים וקונסטרוקציות מתכת לשימוש מגורי, מסחרי ותעשייתי.',
   },
   {
     icon: (
@@ -41,34 +41,39 @@ const services: Service[] = [
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+        <line x1="3" y1="5" x2="3" y2="19" />
+        <line x1="21" y1="5" x2="21" y2="19" />
+        <line x1="7" y1="5" x2="7" y2="19" />
+        <line x1="11" y1="5" x2="11" y2="19" />
+        <line x1="15" y1="5" x2="15" y2="19" />
+        <line x1="3" y1="9" x2="21" y2="9" />
+        <line x1="3" y1="15" x2="21" y2="15" />
+      </svg>
+    ),
+    title: 'מעקות וסורגים',
+    description: 'ייצור והתקנת מעקות וסורגים — לחדרי מדרגות, גגות, מרפסות וחלונות.',
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
         <rect x="2" y="2" width="4" height="20" rx="1" />
         <rect x="18" y="2" width="4" height="20" rx="1" />
-        <line x1="6" y1="6" x2="18" y2="6" />
-        <line x1="6" y1="12" x2="18" y2="12" />
-        <line x1="6" y1="18" x2="18" y2="18" />
-        <line x1="12" y1="2" x2="12" y2="22" />
+        <path d="M6 12h12M6 7l5 5-5 5" />
       </svg>
     ),
-    title: 'שערים ומעקות',
-    description: 'שערים ומעקות מעוצבים בהתאמה אישית — כניסה לבית, חצר, גג וחדר מדרגות.',
+    title: 'גדרות ושערים',
+    description: 'ייצור והתקנת גדרות ושערים — כניסה לבית, חצר, מחסן ומבנים מסחריים.',
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-        <path d="M3 21h18M3 21V13h4v-4h4V5h4V1h4v20" />
+        <rect x="2" y="7" width="20" height="14" rx="1" />
+        <path d="M2 11h20M2 15h20M7 7V3M17 7V3" />
+        <line x1="12" y1="7" x2="12" y2="21" />
       </svg>
     ),
-    title: 'מדרגות מתכת',
-    description: 'מדרגות מתכת ומעקות בעיצוב מודרני — שילוב של פלדה, עץ וזכוכית.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ),
-    title: 'עבודות מיוחדות',
-    description: 'כל עבודת מתכת ייחודית — ריהוט מתכת, ארגון רכבים, גגונים ועוד.',
+    title: 'בנייה מפאנל מבודד',
+    description: 'מבנים מפאנל מבודד לאחסון, תעשייה ומגורים — עמידים, חסכוניים ומהירים להקמה.',
   },
 ]
 
@@ -95,8 +100,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <p className="section-label">מה אנחנו עושים</p>
-          <h2 className="section-title">שירותים</h2>
-          <div className="w-16 h-[2px] bg-gold mx-auto mt-6" />
+          <div className="w-16 h-[2px] bg-gold mx-auto mt-4" />
         </motion.div>
 
         {/* Cards */}
