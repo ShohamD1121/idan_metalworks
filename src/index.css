@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    overflow-x: hidden;
+    font-family: 'Rubik', sans-serif;
+  }
+
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold text-black font-subheading font-semibold tracking-[0.2em] text-sm uppercase transition-all duration-300 hover:bg-gold-light hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 border border-steel-light text-steel-light font-subheading font-semibold tracking-[0.2em] text-sm uppercase transition-all duration-300 hover:bg-steel-light hover:text-metal-black active:scale-95;
+  }
+
+  .section-label {
+    @apply font-subheading text-gold tracking-[0.4em] text-xs uppercase mb-3;
+  }
+
+  .section-title {
+    @apply font-heading text-5xl md:text-7xl text-steel-light tracking-widest leading-none;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
+/* Metal grain texture */
+.metal-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Scroll indicator bounce */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
