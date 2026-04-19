@@ -3,9 +3,6 @@ import { motion } from 'framer-motion'
 // ─── Static constants (defined outside to avoid re-creation) ───────────────
 
 const OUTER  = 'M 80,40 L 1360,40 L 1400,80 L 1400,720 L 1360,760 L 80,760 L 40,720 L 40,80 Z'
-const INNER  = 'M 160,160 L 1280,160 L 1280,640 L 160,640 Z'
-const DIAMOND    = 'M 720,270 L 855,400 L 720,530 L 585,400 Z'
-const DIAMOND_SM = 'M 720,338 L 787,400 L 720,462 L 653,400 Z'
 
 interface Particle { id: number; left: string; top: string; size: string; dur: string; delay: string; gold: boolean }
 const PARTICLES: Particle[] = Array.from({ length: 28 }, (_, i) => ({
@@ -17,15 +14,6 @@ const PARTICLES: Particle[] = Array.from({ length: 28 }, (_, i) => ({
   delay: `-${((i * 1.9) % 11).toFixed(1)}s`,
   gold:  i % 8 === 0,
 }))
-
-interface Dot { cx: number; cy: number; d: number }
-const DOTS: Dot[] = [
-  { cx: 160,  cy: 160, d: 1.0 }, { cx: 1280, cy: 160, d: 1.1 },
-  { cx: 160,  cy: 640, d: 1.2 }, { cx: 1280, cy: 640, d: 1.3 },
-  { cx: 720,  cy: 160, d: 1.4 }, { cx: 720,  cy: 640, d: 1.5 },
-  { cx: 160,  cy: 400, d: 1.6 }, { cx: 1280, cy: 400, d: 1.7 },
-  { cx: 720,  cy: 400, d: 1.9 },
-]
 
 // Shorthand for path draw transitions
 function draw(delay: number, duration: number) {
@@ -56,73 +44,89 @@ export default function Hero() {
         }}
       />
 
-      {/* ── Animated SVG technical drawing ── */}
-      <svg
+      {/* ── Animated SVG — sides only, centre is clear ── */}
+      <motion.svg
         viewBox="0 0 1440 800"
         preserveAspectRatio="xMidYMid slice"
         className="absolute inset-0 w-full h-full pointer-events-none"
         aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
       >
         {/* Outer chamfered frame */}
-        <motion.path d={OUTER} fill="none" stroke="#232323" strokeWidth="1"     {...draw(0,   3.2)} />
+        <motion.path d={OUTER} fill="none" stroke="#222" strokeWidth="1" {...draw(0, 3.2)} />
 
-        {/* Inner rectangle */}
-        <motion.path d={INNER} fill="none" stroke="#1b1b1b" strokeWidth="0.7"   {...draw(0.7, 2.6)} />
-
-        {/* Corner diagonal cuts */}
-        <motion.line x1="80"   y1="40"  x2="160"  y2="160" stroke="#252525" strokeWidth="0.5" {...draw(0.5,  0.4)} />
-        <motion.line x1="1360" y1="40"  x2="1280" y2="160" stroke="#252525" strokeWidth="0.5" {...draw(0.55, 0.4)} />
-        <motion.line x1="80"   y1="760" x2="160"  y2="640" stroke="#252525" strokeWidth="0.5" {...draw(0.6,  0.4)} />
-        <motion.line x1="1360" y1="760" x2="1280" y2="640" stroke="#252525" strokeWidth="0.5" {...draw(0.65, 0.4)} />
-
-        {/* Gold L-brackets at chamfered corners */}
-        <motion.path d="M 40,105 L 40,82 L 58,60 L 80,40 L 125,40"   fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.1, 0.6)} />
-        <motion.path d="M 1400,105 L 1400,82 L 1382,60 L 1360,40 L 1315,40" fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.2, 0.6)} />
-        <motion.path d="M 40,695 L 40,718 L 58,740 L 80,760 L 125,760"  fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.3, 0.6)} />
+        {/* Gold L-brackets at corners */}
+        <motion.path d="M 40,105 L 40,82 L 58,60 L 80,40 L 125,40"            fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.1, 0.6)} />
+        <motion.path d="M 1400,105 L 1400,82 L 1382,60 L 1360,40 L 1315,40"   fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.2, 0.6)} />
+        <motion.path d="M 40,695 L 40,718 L 58,740 L 80,760 L 125,760"        fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.3, 0.6)} />
         <motion.path d="M 1400,695 L 1400,718 L 1382,740 L 1360,760 L 1315,760" fill="none" stroke="#b8860b" strokeWidth="1.5" {...draw(0.4, 0.6)} />
 
-        {/* Crosshair segments (gap around central diamond) */}
-        <motion.line x1="160" y1="400" x2="585"  y2="400" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.5, 1.2)} />
-        <motion.line x1="855" y1="400" x2="1280" y2="400" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.5, 1.2)} />
-        <motion.line x1="720" y1="160" x2="720"  y2="270" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.6, 0.8)} />
-        <motion.line x1="720" y1="530" x2="720"  y2="640" stroke="#1a1a1a" strokeWidth="0.6" {...draw(1.6, 0.8)} />
-
-        {/* Central diamond */}
-        <motion.path d={DIAMOND}    fill="none" stroke="#b8860b"              strokeWidth="1"   {...draw(2.0, 1.6)} />
-        <motion.path d={DIAMOND_SM} fill="none" stroke="rgba(184,134,11,0.3)" strokeWidth="0.6" {...draw(2.4, 1.0)} />
-
-        {/* Horizontal accent bars flanking diamond */}
-        <motion.line x1="160"  y1="220" x2="440"  y2="220" stroke="#161616" strokeWidth="0.5" {...draw(2.0, 0.9)} />
-        <motion.line x1="1000" y1="220" x2="1280" y2="220" stroke="#161616" strokeWidth="0.5" {...draw(2.0, 0.9)} />
-        <motion.line x1="160"  y1="580" x2="440"  y2="580" stroke="#161616" strokeWidth="0.5" {...draw(2.1, 0.9)} />
-        <motion.line x1="1000" y1="580" x2="1280" y2="580" stroke="#161616" strokeWidth="0.5" {...draw(2.1, 0.9)} />
-
-        {/* Intersection dot markers */}
-        {DOTS.map(({ cx, cy, d }) => (
-          <motion.circle
-            key={`${cx}-${cy}`}
-            cx={cx} cy={cy} r="2.5"
-            fill="#b8860b" fillOpacity="0.55"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: d, duration: 0.3, ease: 'backOut' }}
-          />
+        {/* ── LEFT SIDE PANEL (x ≤ 300) ── */}
+        {/* Vertical spine */}
+        <motion.line x1="160" y1="120" x2="160" y2="680" stroke="#252525" strokeWidth="0.8" {...draw(0.8, 1.8)} />
+        {/* Horizontal ticks off spine */}
+        <motion.line x1="40"  y1="200" x2="160" y2="200" stroke="#202020" strokeWidth="0.6" {...draw(1.2, 0.5)} />
+        <motion.line x1="40"  y1="400" x2="240" y2="400" stroke="#202020" strokeWidth="0.6" {...draw(1.4, 0.6)} />
+        <motion.line x1="40"  y1="600" x2="160" y2="600" stroke="#202020" strokeWidth="0.6" {...draw(1.2, 0.5)} />
+        {/* Inner accent bars */}
+        <motion.line x1="160" y1="260" x2="280" y2="260" stroke="#1a1a1a" strokeWidth="0.5" {...draw(1.6, 0.5)} />
+        <motion.line x1="160" y1="540" x2="280" y2="540" stroke="#1a1a1a" strokeWidth="0.5" {...draw(1.6, 0.5)} />
+        {/* Side diamond accent */}
+        <motion.path d="M 160,360 L 200,400 L 160,440 L 120,400 Z" fill="none" stroke="#b8860b" strokeWidth="0.8" {...draw(2.0, 0.8)} />
+        {/* Dot markers */}
+        {([[160,200],[160,400],[160,600],[240,400]] as [number,number][]).map(([cx,cy]) => (
+          <motion.circle key={`l-${cx}-${cy}`} cx={cx} cy={cy} r="2"
+            fill="#b8860b" fillOpacity="0.5"
+            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.3, ease: 'backOut' }} />
         ))}
 
-        {/* Subtle grid dots across the background */}
-        {Array.from({ length: 12 }, (_, row) =>
-          Array.from({ length: 20 }, (_, col) => (
-            <motion.circle
-              key={`g-${row}-${col}`}
-              cx={col * 76 + 40} cy={row * 66 + 40} r="0.8"
-              fill="#1e1e1e"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 + (row + col) * 0.015, duration: 0.4 }}
-            />
-          ))
+        {/* ── RIGHT SIDE PANEL (x ≥ 1140) ── */}
+        {/* Vertical spine */}
+        <motion.line x1="1280" y1="120" x2="1280" y2="680" stroke="#252525" strokeWidth="0.8" {...draw(0.8, 1.8)} />
+        {/* Horizontal ticks */}
+        <motion.line x1="1280" y1="200" x2="1400" y2="200" stroke="#202020" strokeWidth="0.6" {...draw(1.2, 0.5)} />
+        <motion.line x1="1200" y1="400" x2="1400" y2="400" stroke="#202020" strokeWidth="0.6" {...draw(1.4, 0.6)} />
+        <motion.line x1="1280" y1="600" x2="1400" y2="600" stroke="#202020" strokeWidth="0.6" {...draw(1.2, 0.5)} />
+        {/* Inner accent bars */}
+        <motion.line x1="1160" y1="260" x2="1280" y2="260" stroke="#1a1a1a" strokeWidth="0.5" {...draw(1.6, 0.5)} />
+        <motion.line x1="1160" y1="540" x2="1280" y2="540" stroke="#1a1a1a" strokeWidth="0.5" {...draw(1.6, 0.5)} />
+        {/* Side diamond accent */}
+        <motion.path d="M 1280,360 L 1320,400 L 1280,440 L 1240,400 Z" fill="none" stroke="#b8860b" strokeWidth="0.8" {...draw(2.0, 0.8)} />
+        {/* Dot markers */}
+        {([[1280,200],[1280,400],[1280,600],[1200,400]] as [number,number][]).map(([cx,cy]) => (
+          <motion.circle key={`r-${cx}-${cy}`} cx={cx} cy={cy} r="2"
+            fill="#b8860b" fillOpacity="0.5"
+            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.3, ease: 'backOut' }} />
+        ))}
+
+        {/* ── TOP + BOTTOM thin bars (above/below text area) ── */}
+        <motion.line x1="160" y1="100" x2="1280" y2="100" stroke="#181818" strokeWidth="0.5" {...draw(1.0, 2.0)} />
+        <motion.line x1="160" y1="700" x2="1280" y2="700" stroke="#181818" strokeWidth="0.5" {...draw(1.0, 2.0)} />
+        {/* Centre tick on top/bottom bars */}
+        <motion.line x1="720" y1="80"  x2="720" y2="100" stroke="#b8860b" strokeWidth="1" {...draw(1.8, 0.3)} />
+        <motion.line x1="720" y1="700" x2="720" y2="720" stroke="#b8860b" strokeWidth="1" {...draw(1.8, 0.3)} />
+
+        {/* Grid dots — only in left and right thirds */}
+        {Array.from({ length: 10 }, (_, row) =>
+          Array.from({ length: 4 }, (_, col) => {
+            const leftX = col * 60 + 50
+            const rightX = 1440 - leftX
+            const y = row * 72 + 50
+            return [
+              <motion.circle key={`gl-${row}-${col}`} cx={leftX} cy={y} r="0.7" fill="#1e1e1e"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 + (row + col) * 0.02, duration: 0.4 }} />,
+              <motion.circle key={`gr-${row}-${col}`} cx={rightX} cy={y} r="0.7" fill="#1e1e1e"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 + (row + col) * 0.02, duration: 0.4 }} />,
+            ]
+          })
         )}
-      </svg>
+      </motion.svg>
 
       {/* ── Floating particles ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">

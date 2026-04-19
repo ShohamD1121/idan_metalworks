@@ -10,7 +10,7 @@ const contactItems = [
     label: 'טלפון',
     value: '0505258577',
     href: 'tel:0505258577',
-    sub: 'זמין בימי א׳–ו׳',
+    sub: 'זמין בימי א׳–ה׳',
     dir: 'ltr' as const,
   },
   {
@@ -63,8 +63,7 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <p className="section-label">דברו איתנו</p>
-          <h2 className="section-title">צור קשר</h2>
-          <div className="w-16 h-[2px] bg-gold mx-auto mt-6 mb-6" />
+          <div className="w-16 h-[2px] bg-gold mx-auto mt-4 mb-6" />
           <p className="font-body text-steel text-base max-w-lg mx-auto">
             מוזמנים ליצור קשר לקבלת הצעת מחיר, ייעוץ חינם, או כל שאלה בנושא עבודות מתכת.
           </p>
@@ -83,21 +82,21 @@ export default function Contact() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={cardVariants}
-              className="group flex flex-col items-center text-center bg-metal-card border border-metal-border p-8 transition-all duration-300 hover:border-gold hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(184,134,11,0.08)]"
+              className="group flex flex-col items-center text-center bg-metal-card border border-metal-border p-14 transition-all duration-300 hover:border-gold hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(184,134,11,0.1)]"
             >
               {/* Icon */}
-              <div className="text-gold mb-5 transition-transform duration-300 group-hover:scale-110">
+              <div className="text-gold mb-7 transition-transform duration-300 group-hover:scale-110 [&>svg]:w-12 [&>svg]:h-12">
                 {item.icon}
               </div>
 
               {/* Label */}
-              <p className="font-subheading text-steel-dark text-xs tracking-[0.3em] uppercase mb-2">
+              <p className="font-subheading text-steel-dark text-xs tracking-[0.3em] uppercase mb-3">
                 {item.label}
               </p>
 
               {/* Value */}
               <p
-                className="font-subheading text-steel-light text-xl font-semibold mb-1 group-hover:text-gold transition-colors duration-200"
+                className="font-subheading text-steel-light text-2xl md:text-3xl font-semibold mb-2 group-hover:text-gold transition-colors duration-200"
                 dir={item.dir}
               >
                 {item.value}
@@ -107,8 +106,8 @@ export default function Contact() {
               <p className="font-body text-steel-dark text-sm">{item.sub}</p>
 
               {/* Arrow indicator */}
-              <div className="mt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5 text-gold">
+              <div className="mt-7 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6 text-gold">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>

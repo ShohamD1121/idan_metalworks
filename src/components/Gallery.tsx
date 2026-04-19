@@ -104,8 +104,7 @@ export default function Gallery() {
           className="text-center mb-14"
         >
           <p className="section-label">הפרויקטים שלנו</p>
-          <h2 className="section-title">גלריה</h2>
-          <div className="w-16 h-[2px] bg-gold mx-auto mt-6" />
+          <div className="w-16 h-[2px] bg-gold mx-auto mt-4" />
         </motion.div>
 
         {/* Main layout */}
