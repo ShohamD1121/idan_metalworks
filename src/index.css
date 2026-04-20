@@ -21,7 +21,13 @@
 
 @layer components {
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold text-black font-subheading font-semibold tracking-[0.2em] text-sm uppercase transition-all duration-300 hover:bg-gold-light hover:scale-105 active:scale-95;
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-black font-subheading font-semibold text-sm uppercase transition-all duration-300 hover:scale-105 active:scale-95;
+    background: linear-gradient(135deg, #b8860b 0%, #d4a017 40%, #b8860b 100%);
+    letter-spacing: 0.25em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #c49a20 0%, #e5b030 40%, #c49a20 100%);
   }
 
   .btn-outline {
@@ -63,6 +69,18 @@
   z-index: 1;
 }
 
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
 /* Hide scrollbar utility */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -82,4 +100,45 @@
 }
 .animate-bounce-slow {
   animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Gold shimmer animation */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #b8860b 0%, #f0d060 45%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+  display: inline-block;
+}
+
+/* Card glow on hover */
+.card-glow {
+  transition: box-shadow 0.4s ease;
+}
+.card-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(184, 134, 11, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(184, 134, 11, 0.08);
+}
+
+/* Logo shimmer — only while hovering */
+.logo-shimmer-hover {
+  display: inline-block;
+  transition: color 0.3s;
+}
+.logo-shimmer-hover:hover {
+  background: linear-gradient(90deg, #b8860b 0%, #f0d060 45%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s linear infinite;
 }

@@ -115,22 +115,28 @@ export default function Services() {
             <motion.div
               key={service.title}
               variants={cardVariants}
-              className="group relative bg-metal-card border border-metal-border p-8 transition-all duration-300 hover:border-gold hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(184,134,11,0.1)] cursor-default"
+              className="card-glow group relative bg-metal-card border border-metal-border [border-top-color:rgba(184,134,11,0.15)] hover:[border-top-color:#b8860b] p-8 transition-all duration-300 hover:border-gold hover:-translate-y-1 cursor-default overflow-hidden"
             >
               {/* Corner accent */}
               <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-              {/* Icon */}
-              <div className="text-gold mb-5 transition-transform duration-300 group-hover:scale-110">
-                {service.icon}
+              {/* Icon with diamond badge */}
+              <div className="relative mb-5 w-fit">
+                <div
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rotate-45 pointer-events-none"
+                  style={{ background: 'rgba(184,134,11,0.08)' }}
+                />
+                <div className="relative text-gold transition-transform duration-300 group-hover:scale-110">
+                  {service.icon}
+                </div>
               </div>
 
               {/* Content */}
-              <h3 className="font-subheading font-semibold text-xl text-steel-light mb-3 tracking-wide">
+              <h3 className="font-subheading font-semibold text-2xl text-steel-light mb-0 pb-3 tracking-wide border-b border-metal-border">
                 {service.title}
               </h3>
-              <p className="font-body text-steel-dark text-sm leading-relaxed">
+              <p className="font-body text-steel-dark text-sm leading-relaxed mt-3">
                 {service.description}
               </p>
             </motion.div>

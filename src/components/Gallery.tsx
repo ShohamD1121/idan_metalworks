@@ -111,22 +111,20 @@ export default function Gallery() {
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-10 items-start">
 
           {/* ── Project selector ── */}
-          {/* Mobile: horizontal scroll */}
-          <div className="flex lg:hidden gap-3 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide">
+          {/* Mobile: clean tab bar */}
+          <div className="flex lg:hidden border-b border-metal-border -mx-5 px-5 overflow-x-auto scrollbar-hide">
             {projects.map((p, i) => (
               <button
                 key={p.id}
                 onClick={() => setActiveIndex(i)}
-                className={`shrink-0 flex items-center gap-3 px-4 py-3 border transition-all duration-300 ${
-                  activeIndex === i
-                    ? 'border-gold bg-gold/10 text-steel-light'
-                    : 'border-metal-border text-steel-dark hover:border-steel-dark'
+                className={`shrink-0 px-4 pb-3 pt-1 font-subheading text-sm tracking-wider transition-all duration-300 relative ${
+                  activeIndex === i ? 'text-gold' : 'text-steel-dark hover:text-steel'
                 }`}
               >
-                <span className={`font-heading text-2xl leading-none ${activeIndex === i ? 'text-gold' : 'text-metal-border'}`}>
-                  {p.number}
-                </span>
-                <span className="font-subheading text-sm tracking-wider">{p.title}</span>
+                {p.title}
+                {activeIndex === i && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold" />
+                )}
               </button>
             ))}
           </div>
@@ -278,19 +276,6 @@ export default function Gallery() {
                   <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-gold" />
                 </motion.div>
 
-                {/* Project counter */}
-                <div className="absolute -top-10 right-0 flex items-center gap-2" dir="rtl">
-                  {projects.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveIndex(i)}
-                      className={`transition-all duration-300 rounded-full ${
-                        activeIndex === i ? 'w-6 h-1.5 bg-gold' : 'w-1.5 h-1.5 bg-metal-border hover:bg-steel-dark'
-                      }`}
-                      aria-label={`פרויקט ${i + 1}`}
-                    />
-                  ))}
-                </div>
               </motion.div>
             </AnimatePresence>
           </div>

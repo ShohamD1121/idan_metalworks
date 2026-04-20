@@ -22,6 +22,15 @@ export default {
         subheading: ['Oswald', 'sans-serif'],
         body: ['Rubik', 'sans-serif'],
       },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(135deg, #b8860b 0%, #d4a017 50%, #b8860b 100%)',
+        'gold-shimmer': 'linear-gradient(90deg, #b8860b 0%, #f0d060 50%, #b8860b 100%)',
+      },
+      boxShadow: {
+        'gold-sm':   '0 0 20px rgba(184,134,11,0.15)',
+        'gold-md':   '0 0 40px rgba(184,134,11,0.2)',
+        'gold-glow': '0 0 60px rgba(184,134,11,0.1), 0 0 120px rgba(184,134,11,0.05)',
+      },
     },
   },
   plugins: [],
