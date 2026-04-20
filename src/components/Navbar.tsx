@@ -24,16 +24,16 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-metal-black/95 backdrop-blur-md border-b border-metal-border shadow-2xl'
+          ? 'bg-metal-black/95 backdrop-blur-md border-b border-gold/20 shadow-2xl'
           : 'bg-gradient-to-b from-black/60 to-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-5 md:px-10">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo — appears on the RIGHT in RTL (flex-start) */}
+          {/* Logo — shimmer only on hover */}
           <a
             href="#hero"
-            className="font-heading text-2xl md:text-3xl text-steel-light tracking-[0.15em] hover:text-gold transition-colors duration-300 shrink-0"
+            className="logo-shimmer-hover font-heading text-2xl md:text-3xl text-steel-light tracking-[0.15em] shrink-0"
           >
             עידן מטאל וורקס
           </a>
@@ -47,14 +47,20 @@ export default function Navbar() {
                 className="font-subheading text-steel hover:text-gold transition-colors duration-200 text-sm tracking-[0.15em] uppercase relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 right-0 left-0 h-px bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                <span
+                  className="absolute -bottom-1 right-0 left-0 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"
+                  style={{ background: 'linear-gradient(90deg, #b8860b, #f0d060, #b8860b)' }}
+                />
               </a>
             ))}
             <a
               href="tel:0505258577"
-              className="font-subheading text-gold hover:text-gold-light transition-colors duration-200 text-sm tracking-wider border border-metal-border px-4 py-2 hover:border-gold"
+              className="inline-flex items-center gap-2 font-subheading text-gold hover:text-gold-light transition-colors duration-200 text-sm tracking-wider border border-metal-border px-4 py-2 hover:border-gold"
               dir="ltr"
             >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+              </svg>
               0505258577
             </a>
           </div>
@@ -97,7 +103,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={handleLinkClick}
-              className={`font-subheading text-steel hover:text-gold transition-colors duration-200 text-base tracking-[0.2em] uppercase py-4 ${
+              className={`font-subheading text-steel hover:text-gold transition-all duration-200 text-base tracking-[0.2em] uppercase py-4 border-l-2 border-l-transparent hover:border-l-gold hover:pl-3 ${
                 i < links.length - 1 ? 'border-b border-metal-border' : ''
               }`}
             >

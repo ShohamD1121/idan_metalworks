@@ -52,8 +52,21 @@ const cardVariants = {
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 px-5 md:px-10 bg-metal-black">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="contact"
+      className="relative py-24 px-5 md:px-10 bg-metal-black"
+      style={{
+        background: 'radial-gradient(circle at top right, rgba(184,134,11,0.04), transparent 60%), #0a0a0a',
+      }}
+    >
+      {/* Background "CONTACT" ghost text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden="true">
+        <span className="font-heading text-[8rem] md:text-[12rem] text-steel-light opacity-[0.03] select-none whitespace-nowrap" dir="ltr">
+          CONTACT
+        </span>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -82,10 +95,10 @@ export default function Contact() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={cardVariants}
-              className="group flex flex-col items-center text-center bg-metal-card border border-metal-border p-14 transition-all duration-300 hover:border-gold hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(184,134,11,0.1)]"
+              className="group flex flex-col items-center text-center bg-metal-card border border-metal-border border-l-2 border-l-transparent hover:border-l-gold p-8 md:p-10 transition-all duration-300 hover:border-gold hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(184,134,11,0.1)]"
             >
               {/* Icon */}
-              <div className="text-gold mb-7 transition-transform duration-300 group-hover:scale-110 [&>svg]:w-12 [&>svg]:h-12">
+              <div className="text-gold mb-6 transition-transform duration-300 group-hover:scale-110 [&>svg]:w-8 [&>svg]:h-8">
                 {item.icon}
               </div>
 
@@ -105,8 +118,8 @@ export default function Contact() {
               {/* Sub */}
               <p className="font-body text-steel-dark text-sm">{item.sub}</p>
 
-              {/* Arrow indicator */}
-              <div className="mt-7 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* Arrow indicator — slides in from right */}
+              <div className="mt-6 opacity-0 group-hover:opacity-100 translate-x-0 group-hover:translate-x-1 transition-all duration-300">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6 text-gold">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />

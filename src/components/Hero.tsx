@@ -35,13 +35,27 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#060606]"
     >
-      {/* Subtle gold centre glow */}
+      {/* Multi-point gold glow — centre + corners */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            'radial-gradient(ellipse 80% 65% at 50% 50%, rgba(184,134,11,0.04) 0%, transparent 65%)',
+          background: [
+            'radial-gradient(ellipse 80% 65% at 50% 50%, rgba(184,134,11,0.07) 0%, transparent 65%)',
+            'radial-gradient(ellipse 50% 50% at 10% 15%, rgba(184,134,11,0.03) 0%, transparent 60%)',
+            'radial-gradient(ellipse 50% 50% at 90% 85%, rgba(184,134,11,0.03) 0%, transparent 60%)',
+          ].join(', '),
         }}
+      />
+
+      {/* Scan line — sweeps once on load */}
+      <motion.div
+        className="absolute left-0 right-0 h-px pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(184,134,11,0.55) 50%, transparent 100%)',
+        }}
+        initial={{ y: 0, opacity: 0 }}
+        animate={{ y: '100vh', opacity: [0, 1, 1, 0] }}
+        transition={{ duration: 1.8, delay: 0.5, ease: 'linear' }}
       />
 
       {/* ── Animated SVG — sides only, centre is clear ── */}
@@ -166,12 +180,12 @@ export default function Hero() {
           IDAN METAL WORKS · @idanduek_metalworks
         </motion.p>
 
-        {/* Main headline */}
+        {/* Main headline — shimmer gradient on loop */}
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="font-heading text-[2.8rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-[0.92] text-steel-light tracking-wider"
+          className="text-shimmer font-heading text-[2.8rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-[0.92] tracking-wider"
           dir="rtl"
         >
           מסגרות.
@@ -189,16 +203,25 @@ export default function Hero() {
           className="w-20 h-[2px] bg-gold mx-auto mt-8 mb-6 origin-center"
         />
 
-        {/* Sub-headline */}
-        <motion.p
+        {/* Sub-headline — steel with flanking gold lines on desktop */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.2 }}
-          className="font-body text-steel text-lg md:text-2xl mb-12 tracking-wide"
-          dir="rtl"
+          className="flex items-center justify-center gap-5 mb-12"
         >
-          בנייה ממתכת ברמה גבוהה
-        </motion.p>
+          <div
+            className="hidden sm:block h-px w-20 shrink-0"
+            style={{ background: 'linear-gradient(to left, rgba(184,134,11,0.4), transparent)' }}
+          />
+          <p className="font-body text-steel text-lg md:text-2xl tracking-wide" dir="rtl">
+            בנייה ממתכת ברמה גבוהה
+          </p>
+          <div
+            className="hidden sm:block h-px w-20 shrink-0"
+            style={{ background: 'linear-gradient(to right, rgba(184,134,11,0.4), transparent)' }}
+          />
+        </motion.div>
 
         {/* CTAs */}
         <motion.div
