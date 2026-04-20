@@ -112,7 +112,12 @@ export default function Gallery() {
 
           {/* ── Project selector ── */}
           {/* Mobile: clean tab bar */}
-          <div className="flex lg:hidden border-b border-metal-border -mx-5 px-5 overflow-x-auto scrollbar-hide">
+          <div className="relative lg:hidden -mx-5">
+            {/* Right fade — hints at more tabs to scroll */}
+            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-metal-black to-transparent pointer-events-none z-10" />
+            {/* Left fade */}
+            <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-metal-black to-transparent pointer-events-none z-10" />
+          <div className="flex border-b border-metal-border px-5 overflow-x-auto scrollbar-hide">
             {projects.map((p, i) => (
               <button
                 key={p.id}
@@ -127,6 +132,7 @@ export default function Gallery() {
                 )}
               </button>
             ))}
+          </div>
           </div>
 
           {/* Desktop: vertical list */}
